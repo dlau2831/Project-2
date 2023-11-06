@@ -1,0 +1,10 @@
+Hammers, 10, 52
+Nails, 10, 10
+Screwdrivers, 11, 45
+Wood Planks, 59, 23
+Hot Glue Guns, 99, 98
+Door Locks, 44, 41
+Grills, 124, 39
+Facuts, 234, 17
+Light Bulbs, 17, 97
+Saws, 42, 28
