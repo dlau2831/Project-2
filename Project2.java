@@ -1,19 +1,11 @@
-/**
- * ICIS 201 Introduction to Computer Science>
- * Fall 2023
- * Lab Section <Lab section <Friday 11:40 A.M - 12:35 P.M>
- * David Lau
- * DL425467
- * dlau2@albany.edu
- *
- * This project takes an input file and uses the data from it to convert it into different objects.
- * You are able to store the data into an array where you can display and sort the information.
- * 
- */
+
+ // This project takes an input file and uses the data from it to convert it into different objects.
+ // You are able to store the data into an array where you can display and sort the information.
+
 import java.io.*;
 import java.util.Scanner;
 
-public class P2Driver_DL425467 {
+public class Project2 {
 	//Main method to show Menu
     public static void main(String[] args) throws IOException {
 
