@@ -12,7 +12,7 @@ public class Project2 {
     	// Size of Array (Max)
         int arr_size = 100;
         // Array of items in inventory
-        Item_DL425467[] inventory = new Item_DL425467[arr_size]; 
+        ItemDriver[] inventory = new ItemDriver[arr_size]; 
         // Variable for amount of items in array
         int act_size = 0; 
         // Variable for input's choice menu
@@ -42,7 +42,7 @@ public class Project2 {
             int amount = Integer.parseInt(parts[2].trim()); // Amount is the third part
 
             // Create objects and add to array with index i
-            inventory[i] = new Item_DL425467(name, price, amount);
+            inventory[i] = new ItemDriver(name, price, amount);
             // Count the actual amount of elements in the array
             act_size++;
             // Increment i for the index and max count of objects.
@@ -125,7 +125,7 @@ public class Project2 {
 
         }
     // Method to showInventory when prompt to
-    public static void showInventory(Item_DL425467[] inv, int size){
+    public static void showInventory(ItemDriver[] inv, int size){
         //Print out header for inventory
         System.out.println();
         System.out.println("========================================================================");
@@ -148,7 +148,7 @@ public class Project2 {
         System.out.println("========================================================================");
     }
     // Method to showInventory Value when prompt to
-    public static void inventoryValue(Item_DL425467[] inv, int size){
+    public static void inventoryValue(ItemDriver[] inv, int size){
         //Variable for total
         double total = 0.00;
         //Traverse through array and add the price and inventory of each item to total
@@ -160,12 +160,12 @@ public class Project2 {
         System.out.println();
     }
     // Method to showInventory items from low to high when prompt to
-    public static Item_DL425467[] lowToHigh(Item_DL425467[] inv, int size){
-    	Item_DL425467 [] arr = inv.clone(); 
+    public static ItemDriver[] lowToHigh(ItemDriver[] inv, int size){
+    	ItemDriver [] arr = inv.clone(); 
         for (int i = 0; i < size - 1; i++){
             for (int j = 0; j < size - i - 1; j++){
                 if (arr[j].getPrice() > arr[j+1].getPrice()){
-                	Item_DL425467 temp = arr[j];
+                	ItemDriver temp = arr[j];
                     arr[j] = arr[j+1];
                     arr[j+1] = temp;
                 }
@@ -174,12 +174,12 @@ public class Project2 {
         return arr;
     }
     // Method to showInventory items by Name when prompt to
-    public static Item_DL425467[] byName(Item_DL425467[] inv, int size){
-    	Item_DL425467 [] arr = inv.clone(); 
+    public static ItemDriver[] byName(ItemDriver[] inv, int size){
+    	ItemDriver [] arr = inv.clone(); 
         for (int i = 0; i < size - 1; i++){
             for (int j = 0; j < size - i - 1; j++){
                 if (arr[j].getName().compareToIgnoreCase(arr[j+1].getName()) > 0){
-                	Item_DL425467 temp = arr[j];
+                	ItemDriver temp = arr[j];
                     arr[j] = arr[j+1];
                     arr[j+1] = temp;
                 }
@@ -188,7 +188,7 @@ public class Project2 {
         return arr;
     }
     // Method to find exact Item when prompt to
-    public static int findItem(Item_DL425467[] arr, int size, String name){
+    public static int findItem(ItemDriver[] arr, int size, String name){
         int first = 0;
         int last = size - 1;
         while (first <= last) {
@@ -207,7 +207,7 @@ public class Project2 {
         return -1;
     }
     // Method to search item when prompt to
-    public static void itemSearch(Item_DL425467[] inv, int size){
+    public static void itemSearch(ItemDriver[] inv, int size){
         inv = byName(inv, size);
         boolean searching = true;
         Scanner keyboard = new Scanner(System.in);
