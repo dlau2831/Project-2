@@ -6,7 +6,7 @@ public class ItemDriver {
 	private double price;
 	private int amount;
 	
-	public Item_DL425467(String nm, double pr, int am) {
+	public ItemDriver(String nm, double pr, int am) {
 		this.name = nm;
 		this.price = pr;
 		this.amount = am;
@@ -44,7 +44,7 @@ public class ItemDriver {
 		System.out.print("Amount: ");
 		int amount = keyboard.nextInt();
 		
-		Item_DL425467 newItem = new Item_DL425467(name, price, amount);
+		ItemDriver newItem = new ItemDriver(name, price, amount);
 		System.out.println("===============================================");
 		System.out.println("Created: \n" + newItem.toString());
 		System.out.println("===============================================");
