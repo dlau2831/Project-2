@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.io.File;
 
-public class Item_DL425467 {
+public class ItemDriver {
 	private String name;
 	private double price;
 	private int amount;
