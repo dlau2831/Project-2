@@ -1,259 +1,172 @@
-
- // This project takes an input file and uses the data from it to convert it into different objects.
- // You are able to store the data into an array where you can display and sort the information.
+// This project takes an input file and uses the data from it to convert it into different objects.
+// You are able to store the data into an array where you can display and sort the information.
 
 import java.io.*;
 import java.util.Scanner;
 
-public class Project2 {
-	//Main method to show Menu
+public class Rewritten {
     public static void main(String[] args) throws IOException {
-
-    	// Size of Array (Max)
-        int arr_size = 100;
-        // Array of items in inventory
-        ItemDriver[] inventory = new ItemDriver[arr_size]; 
-        // Variable for amount of items in array
-        int act_size = 0; 
-        // Variable for input's choice menu
-        int userChoice; 
-        // Variable to continue or exit
-        String menuOrExit; 
-        // Valid choice for menu option
-        boolean validChoice = false; 
-        // Loop Flag
-        boolean running = true; 
-        // Text File
+    	// Making sure the array size does not exceed 100
+        final int MAX_ITEMS = 100;
+        // Creating the object Inventory with the 
+        Item_DL425467[] inventory = new Item_DL425467[MAX_ITEMS];
+        // Variable used to count items in the array
+        int itemCount = 0;
+        // Flag for continuation of program
+        boolean running = true;
+        
+        // Read inventory data from "inv.txt"
         File file = new File("inv.txt");
-        // Scanner for file
-        Scanner scanner = new Scanner(file); 
-        // Scanner for input
-        Scanner keyboard = new Scanner(System.in); 
-        // Variable for item to not exceed 100
-        int i = 0; 
-
-      //Loop to read the file
-        while (scanner.hasNext() && i < 100) {
-            // Reading & Assigning their values to their respective category
-            String line = scanner.nextLine();
-            String[] parts = line.split(","); // Split the line using commas
-            String name = parts[0].trim(); // Name is the first part
-            double price = Double.parseDouble(parts[1].trim()); // Price is the second part
-            int amount = Integer.parseInt(parts[2].trim()); // Amount is the third part
-
-            // Create objects and add to array with index i
-            inventory[i] = new ItemDriver(name, price, amount);
-            // Count the actual amount of elements in the array
-            act_size++;
-            // Increment i for the index and max count of objects.
-            i++;
-        }
-
-        // Loop Program until stopped
-        while (running) {
-            // Display Menu
-            System.out.println("Inventory List :\n"
-                    + "===================================================================\n"
-                    + "1.  Show the inventory.\n"
-                    + "2.  Calculate the value of inventory.\n"
-                    + "3.  Show the inventory sorted from the lowest to the highest price. \n"
-                    + "4.  Show the inventory sorted by the item's name.\n"
-                    + "5.  Find an item by name.\n"
-                    + "6.  Quit.\n"
-                    + "===================================================================\n" );
-       
-            // Asking user's choice
-            System.out.print("What would you like to do: ");
-            // Validate the input
-            do{
-                userChoice = keyboard.nextInt(); //User input
-                //Check if choice is valid
-                if ((userChoice >= 1) && (userChoice <= 6)){
-                    validChoice = true; }
-                
-                //Invalid Input
-                else{
-                    System.out.println("That is not an option.");
-                    System.out.println("Please input a valid option: "); } }
-                
-            while (!validChoice);
-
-            System.out.println(); //Print new line
-
-            switch(userChoice) {
-                // Show the inventory
-                case 1:
-                    P2Driver_DL425467.showInventory(inventory, act_size);
-                    break;
-                // Show the value of the inventory
-                case 2:
-                	P2Driver_DL425467.inventoryValue(inventory, act_size);
-                    break;
-                // Show the inventory sorted by price (Low to High)
-                case 3:
-                    showInventory(lowToHigh(inventory, act_size), act_size);
-                    break;
-                // Show the inventory sorted alphabetically
-                case 4:
-                    showInventory(byName(inventory, act_size), act_size);
-                    break;
-                // Search for an item
-                case 5:
-                	P2Driver_DL425467.itemSearch(inventory, act_size);
-                    break;
-                // End program
-                case 6:
-                    quitProgram();
-                    break;
-            }
-            // If the user does not end program, ask if they would like to return to menu or exit
-                System.out.println();
-                System.out.print("'Y' to return to menu or 'N' to quit the program: ");  //Ask for input
-                menuOrExit = keyboard.next(); //Get user input
-                System.out.println();
-
-                //If the user inputs '2', the loop will get set to false and end program
-                if (menuOrExit.equalsIgnoreCase("N")) {
-                    quitProgram();
-                    //If input is invalid, return user to menu
-                } else if (!menuOrExit.equalsIgnoreCase("Y")){
-                    System.out.println("Invalid Input. Returning to the menu.");
-                    System.out.println();
-                }
-                //If the user input is 1, the program returns to menu and does not display a message
-            }
-
-        }
-    // Method to showInventory when prompt to
-    public static void showInventory(ItemDriver[] inv, int size){
-        //Print out header for inventory
-        System.out.println();
-        System.out.println("========================================================================");
-        System.out.println("   Listed By: Name                                                      ");    
-        System.out.println("              Price                                                     ");
-        System.out.println("              Amount                                                    ");
-        System.out.println("========================================================================");
-
-        //Traverse through the array and print out the items for each index
-        for (int i = 0; i < size; i++){
-            //Correct the format for single digit numbers
-            String itemNumber = Integer.toString(i + 1);
-            if (i < 9){
-                itemNumber = itemNumber + " ";
-            }
-            //Print out numbers and the item
-            System.out.println(itemNumber + "  " + inv[i].toString());
-        }
-        //Print out footer for inventory
-        System.out.println("========================================================================");
-    }
-    // Method to showInventory Value when prompt to
-    public static void inventoryValue(ItemDriver[] inv, int size){
-        //Variable for total
-        double total = 0.00;
-        //Traverse through array and add the price and inventory of each item to total
-        for(int i = 0; i < size; i++){
-            total += (inv[i].getPrice() * inv[i].getAmount());
-        }
-        //Print out message stating what the total value for the inventory is
-        System.out.printf("The total value of the inventory is: $%.2f", total);
-        System.out.println();
-    }
-    // Method to showInventory items from low to high when prompt to
-    public static ItemDriver[] lowToHigh(ItemDriver[] inv, int size){
-    	ItemDriver [] arr = inv.clone(); 
-        for (int i = 0; i < size - 1; i++){
-            for (int j = 0; j < size - i - 1; j++){
-                if (arr[j].getPrice() > arr[j+1].getPrice()){
-                	ItemDriver temp = arr[j];
-                    arr[j] = arr[j+1];
-                    arr[j+1] = temp;
-                }
-            }
-        }
-        return arr;
-    }
-    // Method to showInventory items by Name when prompt to
-    public static ItemDriver[] byName(ItemDriver[] inv, int size){
-    	ItemDriver [] arr = inv.clone(); 
-        for (int i = 0; i < size - 1; i++){
-            for (int j = 0; j < size - i - 1; j++){
-                if (arr[j].getName().compareToIgnoreCase(arr[j+1].getName()) > 0){
-                	ItemDriver temp = arr[j];
-                    arr[j] = arr[j+1];
-                    arr[j+1] = temp;
-                }
-            }
-        }
-        return arr;
-    }
-    // Method to find exact Item when prompt to
-    public static int findItem(ItemDriver[] arr, int size, String name){
-        int first = 0;
-        int last = size - 1;
-        while (first <= last) {
-            int middle = first + (last - first) / 2;
-            int result = name.compareToIgnoreCase(arr[middle].getName());
-            if (result == 0) {
-                return middle;
-            }
-            else if (result > 0) {
-                first = middle + 1;
-            }
-            else {
-                last = middle - 1;
-            }
-        }
-        return -1;
-    }
-    // Method to search item when prompt to
-    public static void itemSearch(ItemDriver[] inv, int size){
-        inv = byName(inv, size);
-        boolean searching = true;
+        Scanner scanner = new Scanner(file);
         Scanner keyboard = new Scanner(System.in);
-        char continueSearch;
 
-        do {
-            System.out.print("Enter the item's name that you looking for: ");
-            String itemLookup = keyboard.next(); //Store input
-            System.out.println();
-
-            int foundItemIndex = findItem(inv,size, itemLookup);
-
-            //If item is not found
-            if (foundItemIndex == -1){
-                System.out.println("Item does not exist or is incorrect.");
+        int index = 0;
+        // Reading inventory data & making sure the items do not exceed 100
+        while (scanner.hasNext() && index < MAX_ITEMS) {
+        	// Reads the line from the file and split them into strings with commas
+            String line = scanner.nextLine();
+            String[] parts = line.split(",");
+            
+            // Take the data stored from name, price, and amount and trim from the array
+            String name = parts[0].trim();
+            double price = Double.parseDouble(parts[1].trim());
+            int quantity = Integer.parseInt(parts[2].trim());
+            
+            // New object with the new information
+            inventory[index] = new Item_DL425467(name, price, quantity);
+            
+            // Keeping track the item and index count
+            itemCount++;
+            index++;
+        }
+        // Loop for the program
+        while (running) {
+        	// Display menu
+            showMenu();
+            // Assigns user's choice to a variable
+            int userChoice = getUserChoice(keyboard);
+            // Switch Case to go to the method when the user choice matches the case
+            switch (userChoice) {
+                case 1:
+                    showInventory(inventory, itemCount); // Show Inventory
+                    break;
+                case 2:
+                    showInventoryValue(inventory, itemCount); // Show Inventory Value
+                    break;
+                case 3:
+                    sortByPriceLowToHigh(inventory, itemCount); // Sort from lowest to highest (price)
+                    showInventory(inventory, itemCount);
+                    break;
+                case 4:
+                    sortByName(inventory, itemCount); // Sort by name
+                    showInventory(inventory, itemCount);
+                    break;
+                case 5:
+                    searchItemByName(inventory, itemCount, keyboard); // Search a specific item
+                    break;
+                case 6:
+                    running = false; // Quit program
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please select a valid option."); // Invalid user choice
             }
-            //Print out item information
-            else{
-                System.out.println("Product: " + inv[foundItemIndex].getName());
-                System.out.printf("Price: $%.2f\n", inv[foundItemIndex].getPrice());
-                System.out.println("Stock: " + inv[foundItemIndex].getAmount());
-            }
-            System.out.println(); //New line
-
-            //Ask if they would like to search for another item
-            System.out.print("Would you like to search again? [Y/N]: ");
-            continueSearch = keyboard.next().charAt(0); //Get character input
-            //If the user says yes
-            if (continueSearch == 'Y' || continueSearch == 'y') {
-                System.out.println();
-            }
-            //If the user says no
-            else if (continueSearch == 'N' || continueSearch == 'n') {
-                searching = false;
-            }
-            //If invalid input
-            else {
-                System.out.println("Invalid input. Ending item search.");
-                searching = false;
-            }
-        } while (searching);
+        }
     }
-    // Method to quit the program
-    public static void quitProgram(){
-        System.out.println("Stopping Program.");
-        //End the program
-        System.exit(0);
+
+    // Display all menu options 
+    public static void showMenu() {
+        System.out.println("Inventory Menu:");
+        System.out.println("1. Show the inventory");
+        System.out.println("2. Calculate the value of inventory");
+        System.out.println("3. Show the inventory sorted from lowest to highest price");
+        System.out.println("4. Show the inventory sorted by item's name");
+        System.out.println("5. Find an item by name");
+        System.out.println("6. Quit");
+    }
+    
+    // Method to take the user's choice from the menu
+    public static int getUserChoice(Scanner scanner) {
+        int choice = 0;
+        boolean validChoice = false;
+       
+        while (!validChoice) { // While validChoice is true
+            System.out.print("Enter your choice: ");
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                if (choice >= 1 && choice <= 6) { // Making sure it's between the valid options 1-6
+                    validChoice = true;
+                } else {
+                    System.out.println("Invalid choice. Please select a valid option.");
+                }
+            } else {
+                System.out.println("Invalid choice. Please enter a number.");
+                scanner.next();
+            }
+        }
+
+        return choice;
+    }
+    // Method to display the inventory items
+    public static void showInventory(Item_DL425467[] inventory, int itemCount) {
+        System.out.println("Inventory List: ");
+        System.out.println("=====================================");
+        // Loop until all items are shown
+        for (int i = 0; i < itemCount; i++) { 
+            System.out.println(inventory[i]);
+        }
+        System.out.println("=====================================");
+    }
+    // Calculate the inventory value and displays the value
+    public static void showInventoryValue(Item_DL425467[] inventory, int itemCount) {
+        double totalValue = 0.0;
+        // Loop to calculate all the value stored in the inventory
+        for (int i = 0; i < itemCount; i++) {
+            totalValue += inventory[i].getPrice() * inventory[i].getAmount();
+        }
+        System.out.printf("The total value of the inventory is: $%.2f%n", totalValue);
+    }
+    // Method to sort the items out from highest to lowest
+    public static void sortByPriceLowToHigh(Item_DL425467[] inventory, int itemCount) {
+        // Bubble sort algorithm from lowest to highest
+        for (int i = 0; i < itemCount - 1; i++) {
+            for (int j = 0; j < itemCount - i - 1; j++) {
+                if (inventory[j].getPrice() > inventory[j + 1].getPrice()) {
+                    // Swap wrong order items
+                    Item_DL425467 temp = inventory[j];
+                    inventory[j] = inventory[j + 1];
+                    inventory[j + 1] = temp;
+                }
+            }
+        }
+    }
+    // Method to sort the items alphabetically 
+    public static void sortByName(Item_DL425467[] inventory, int itemCount) {
+        // Bubble sort algorithm for item's name alphabetically
+        for (int i = 0; i < itemCount - 1; i++) {
+            for (int j = 0; j < itemCount - i - 1; j++) {
+                if (inventory[j].getName().compareTo(inventory[j + 1].getName()) > 0) {
+                    // Swap wrong order items
+                    Item_DL425467 temp = inventory[j];
+                    inventory[j] = inventory[j + 1];
+                    inventory[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    // Method to search item by exact name
+    public static void searchItemByName(Item_DL425467[] inventory, int itemCount, Scanner scanner) {
+        System.out.print("Enter the item name you want to search for: ");
+        String searchName = scanner.next(); // User's item name
+        
+        // Loop to search through every item until Item is found
+        for (int i = 0; i < itemCount; i++) {
+            if (inventory[i].getName().equalsIgnoreCase(searchName)) {
+                System.out.println("Item found:");
+                System.out.println(inventory[i]);
+                return;
+            }
+        }
+        System.out.println("Item not found."); // If not found
     }
 }
